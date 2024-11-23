@@ -122,7 +122,7 @@ export class TitulosComponent implements OnInit {
 
       this.tituloService.create(titulo).subscribe({
         next:()=>{
-          alert("Item inserido com sucesso.")
+          alert("Titulo inserido com sucesso.")
           this.list();
         },
         error:(error)=>{
@@ -142,8 +142,8 @@ export class TitulosComponent implements OnInit {
       };
 
       this.tituloService.update(titulo_editado).subscribe({
-        next:(res)=>{
-          alert(res);
+        next:()=>{
+          alert("Titulo editado com sucesso.")
           this.list();
         },
         error:(error)=>{
@@ -166,10 +166,24 @@ export class TitulosComponent implements OnInit {
   }
 
   setAdd(){
-
+    this.id_editar = null;
+    this.nome = "";
+    this.ano = 0;
+    this.sinopse = "";
+    this.categoria = "";
+    this.selectedDiretor;
+    this.selectedAtores = [];
+    this.selectedClasse;
   }
 
-  setEdit(item_editar:Titulo){
-
+  setEdit(titulo_editar:Titulo){
+    this.id_editar = titulo_editar.id!;
+    this.nome = titulo_editar.nome;
+    this.ano = titulo_editar.ano;
+    this.sinopse = titulo_editar.sinopse;
+    this.categoria = titulo_editar.categoria;
+    this.selectedDiretor = titulo_editar.diretor;
+    this.selectedAtores = titulo_editar.ator;
+    this.selectedClasse = titulo_editar.classe;
   }
 }

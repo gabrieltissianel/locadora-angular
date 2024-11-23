@@ -110,11 +110,6 @@ export class ItensComponent implements OnInit {
   }
 
   setAdd(){
-    this.tituloService.listAll().subscribe({
-      next: (res) => {
-        this.titulos = res;
-      }
-    })
     this.numSerie = 0;
     this.tipoItem = "";
     this.dtAquisicao = "";
@@ -122,14 +117,9 @@ export class ItensComponent implements OnInit {
   }
 
   setEdit(item_editar:Item){
-    this.tituloService.listAll().subscribe({
-      next: (res) => {
-        this.titulos = res;
-      }
-    })
     this.selectedTitulo = item_editar.titulo;
-    this.tipoItem = "";
-    this.dtAquisicao = "";
+    this.tipoItem = item_editar.tipoItem;
+    this.dtAquisicao = item_editar.dtAquisicao;
     this.numSerie = item_editar.numSerie;
     this.id_editar = item_editar.id!;
   }
