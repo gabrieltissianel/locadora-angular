@@ -1,0 +1,58 @@
+<mat-toolbar>
+  <span>Atores Cadastrados</span>
+  <button mat-mini-fab color="accent" aria-label="Adicionar um ator" data-bs-toggle="modal" data-bs-target="#exampleModal"
+  (click)="setAdd()">
+    <mat-icon>add</mat-icon>
+</button>
+</mat-toolbar>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (ator of atores; track $index) {
+      <tr>
+        <td>{{ator.id}}</td>
+        <td>{{ator.name}}</td>
+        <td>
+          <button mat-icon-button color="accent" aria-label="Editar um ator" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="setEdit(ator)">
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <button mat-icon-button color="warning" aria-label="Remover um ator" (click)="remove(ator.id!)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </tr>
+
+    }
+  </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Ator</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="inputNome" class="form-label">Nome</label>
+          <input type="text" class="form-control" id="inputNome" [(ngModel)]="nome_ator">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="add()" >Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

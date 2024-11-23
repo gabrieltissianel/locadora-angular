@@ -1,0 +1,77 @@
+<mat-toolbar>
+  <span>Itens Cadastrados</span>
+  <button mat-mini-fab color="accent" aria-label="Adicionar um item" data-bs-toggle="modal" data-bs-target="#exampleModal"
+  (click)="setAdd()">
+    <mat-icon>add</mat-icon>
+</button>
+</mat-toolbar>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Nº Série</th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Título</th>
+      <th scope="col">Data Aquisição</th>
+      <th scope="col">Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (item of itens; track $index) {
+      <tr>
+        <td>{{item.id}}</td>
+        <td>{{item.numSerie}}</td>
+        <td>{{item.tipoItem}}</td>
+        <td>{{item.titulo.nome}}</td>
+        <td>{{item.dtAquisicao}}</td>
+        <td>
+          <button mat-icon-button color="accent" aria-label="Editar um item" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="setEdit(item)">
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <button mat-icon-button color="warning" aria-label="Remover um item" (click)="remove(item.id!)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Item</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="inputItem" class="form-label">Tipo de Item</label>
+          <input type="text" class="form-control" id="inputItem" [(ngModel)]="tipoItem">
+        </div>
+        <div class="mb-3">
+          <label for="inputSerie" class="form-label">Nº Série</label>
+          <input type="number" class="form-control" id="inputSerie" [(ngModel)]="numSerie">
+        </div>
+        <div class="mb-3">
+          <label for="inputTitulo" class="form-label">Título</label>
+          <select name="titulo" [(ngModel)]="selectedTitulo" [ngModelOptions]="{standalone: true}" class="form-select">
+            <option *ngFor="let titulo of titulos" [ngValue]="titulo">{{ titulo.nome }}</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="inputData" class="form-label">Data</label>
+          <input type="date" class="form-control" id="inputData" [(ngModel)]="dtAquisicao">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="add()" >Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
