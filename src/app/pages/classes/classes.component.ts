@@ -28,7 +28,7 @@ export class ClassesComponent implements OnInit{
 
   nome_classe:string = "";
   value_classe:number = 0;
-  prazo_classe:string = "";
+  prazo_classe:number = 0;
 
   id_editar:number | null = null;
 
@@ -99,7 +99,7 @@ export class ClassesComponent implements OnInit{
   setAdd(){
     this.nome_classe = "";
     this.value_classe = 0;
-    this.prazo_classe = "";
+    this.prazo_classe = 0;
     this.id_editar = null;
   }
 

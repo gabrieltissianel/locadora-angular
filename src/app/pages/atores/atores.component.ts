@@ -42,6 +42,7 @@ export class AtoresComponent implements OnInit{
     this.atorService.listAll().subscribe({
       next: (res) => {
         this.atores = res;
+        console.log(res);
       }
     })
   }

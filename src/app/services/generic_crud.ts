@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 export class GenericCrud<T extends {id?: number}> {
 
-  constructor(private httpClient: HttpClient, private url: string) { }
+  constructor(protected httpClient: HttpClient, protected url: string) { }
 
   listAll(): Observable<T[]> {
     return this.httpClient.get<T[]>(`${this.url}/list`);

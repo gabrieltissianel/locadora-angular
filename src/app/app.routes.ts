@@ -5,6 +5,7 @@ import { DiretoresComponent } from './pages/diretores/diretores.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ItensComponent } from './pages/itens/itens.component';
 import { TitulosComponent } from './pages/titulos/titulos.component';
+import { SociosComponent } from './pages/socios/socios.component';
 
 
 export const routes: Routes = [
@@ -32,4 +33,8 @@ export const routes: Routes = [
     path: 'titulos',
     component: TitulosComponent
   },
+  {
+    path: 'socios',
+    component: SociosComponent
+  }
 ];
