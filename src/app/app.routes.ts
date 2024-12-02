@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { AtoresComponent } from './pages/atores/atores.component';
 import { ClassesComponent } from './pages/classes/classes.component';
 import { DiretoresComponent } from './pages/diretores/diretores.component';
-import { HomeComponent } from './pages/home/home.component';
+import { LocacaoComponent } from './pages/locacao/locacao.component';
 import { ItensComponent } from './pages/itens/itens.component';
 import { TitulosComponent } from './pages/titulos/titulos.component';
 import { SociosComponent } from './pages/socios/socios.component';
@@ -11,7 +11,7 @@ import { SociosComponent } from './pages/socios/socios.component';
 export const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: LocacaoComponent
   },
   {
     path: 'atores',

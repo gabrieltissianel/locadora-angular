@@ -1,0 +1,172 @@
+<mat-toolbar>
+  <span>Locações</span>
+  <div class="pesquisar">
+    <div class="mb-3">
+      <input type="number" class="form-control" id="inputValor" [(ngModel)]="numSerie">
+    </div>
+    <button mat-mini-fab color="accent" aria-label="Adicionar um ator" data-bs-toggle="modal" data-bs-target="#devolverModel">
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
+
+  <button mat-mini-fab color="accent" aria-label="Adicionar um ator" data-bs-toggle="modal" data-bs-target="#locarModel"
+  (click)="setAdd()">
+    <mat-icon>add</mat-icon>
+</button>
+
+</mat-toolbar>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Cliente</th>
+      <th scope="col">Item</th>
+      <th scope="col">Locação</th>
+      <th scope="col">Devolução Prevista</th>
+      <th scope="col">Devolução Efetiva</th>
+      <th scope="col">Valor</th>
+      <th scope="col">Multa</th>
+      <th scope="col">Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (locacao of locacoes; track $index) {
+      <tr>
+        <td>{{locacao.id}}</td>
+        <td>{{locacao.cliente!.nome}}</td>
+        <td>{{locacao.item!.numSerie}}</td>
+        <td>{{locacao.dtLocacao}}</td>
+        <td>{{locacao.dtDevolucaoPrevista}}</td>
+        <td>{{locacao.dtDevolucaoEfetiva}}</td>
+        <td>{{locacao.valorCobrado}}</td>
+        <td>{{locacao.multaCobrada}}</td>
+        <td>
+          <button mat-icon-button color="accent" aria-label="Editar um ator" data-bs-toggle="modal" data-bs-target="#editarModel" (click)="setEdit(locacao)">
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <button mat-icon-button color="warning" aria-label="Remover um ator" (click)="remove(locacao.id!)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </tr>
+
+    }
+  </tbody>
+</table>
+
+
+<div class="modal fade" id="locarModel" tabindex="-1" aria-labelledby="locarModelLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="locarModelLabel">Locação</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="inputCliente" class="form-label">Cliente</label>
+          <select name="cliente" [(ngModel)]="selectedCliente" [ngModelOptions]="{standalone: true}" class="form-select">
+            <option [ngValue]="selectedCliente" hidden>{{ selectedCliente?.nome }}</option>
+            <option *ngFor="let cliente of clientes" [ngValue]="cliente">{{ cliente.nome }}</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="inputTitulo" class="form-label">Item</label>
+          <select name="titulo" [(ngModel)]="selectedItem" [ngModelOptions]="{standalone: true}" class="form-select">
+            <option [ngValue]="selectedItem" hidden>{{ selectedItem?.numSerie }}</option>
+            <option *ngFor="let item of itens" [ngValue]="item">{{ item.numSerie }}</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="inputNome" class="form-label">Valor</label>
+          <input type="number" class="form-control" id="inputValor" [(ngModel)]="valor">
+        </div>
+        <div class="mb-3">
+          <label for="inputNome" class="form-label">Data de Devolucao</label>
+          <input type="date" class="form-control" id="inputData" [(ngModel)]="dtDevolucao">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="add()" >Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editarModel" tabindex="-1" aria-labelledby="editarModelLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="editarModelLabel">Editar Locação</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="inputCliente" class="form-label">Cliente</label>
+          <select name="cliente" [(ngModel)]="selectedCliente" [ngModelOptions]="{standalone: true}" class="form-select">
+            <option [ngValue]="selectedCliente" hidden>{{ selectedCliente?.nome }}</option>
+            <option *ngFor="let cliente of clientes" [ngValue]="cliente">{{ cliente.nome }}</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="inputTitulo" class="form-label">Item</label>
+          <select name="titulo" [(ngModel)]="selectedItem" [ngModelOptions]="{standalone: true}" class="form-select">
+            <option [ngValue]="selectedItem" hidden>{{ selectedItem?.numSerie }}</option>
+            <option *ngFor="let item of itens" [ngValue]="item">{{ item.numSerie }}</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="inputNome" class="form-label">Valor</label>
+          <input type="number" class="form-control" id="inputValor" [(ngModel)]="valor">
+        </div>
+        <div class="mb-3">
+          <label for="inputNome" class="form-label">Multa</label>
+          <input type="number" class="form-control" id="inputValor" [(ngModel)]="multa">
+        </div>
+        <div class="mb-3">
+          <label for="inputNome" class="form-label">Data de Devolucao Prevista</label>
+          <input type="date" class="form-control" id="inputData" [(ngModel)]="dtDevolucao">
+        </div>
+        <div class="mb-3">
+          <label for="inputNome" class="form-label">Data de Devolucao Efetiva</label>
+          <input type="date" class="form-control" id="inputData" [(ngModel)]="dtDevolucaoEfetiva">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="add()" >Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="devolverModel" tabindex="-1" aria-labelledby="devolverModelLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="devolverModelLabel">Devolver Item</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="inputNome" class="form-label">Multa</label>
+          <input type="number" class="form-control" id="inputValor" [(ngModel)]="multa">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="devolverItem()" >Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

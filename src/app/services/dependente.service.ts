@@ -17,4 +17,8 @@ export class DependenteService extends GenericCrud<Dependente>{
   listDependentes(id: number): Observable<Dependente[]> {
     return this.httpClient.get<Dependente[]>(`${this.url}/listDependentes/${id}`);
   }
+
+  trocarEstado(obj: Dependente): Observable<Dependente>{
+    return this.httpClient.post<Dependente>(`${this.url}/trocarEstado`, obj);
+  }
 }

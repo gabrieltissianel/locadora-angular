@@ -10,7 +10,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { DependenteService } from '../../services/dependente.service';
-
+import { CommonModule, DatePipe } from '@angular/common';
+import { Cliente } from '../../model/cliente';
+import { ClienteService } from '../../services/cliente.service';
 
 @Component({
   selector: 'app-socios',
@@ -23,6 +25,8 @@ import { DependenteService } from '../../services/dependente.service';
     MatInputModule,
     FormsModule,
     MatButtonModule,
+    CommonModule,
+    DatePipe
   ],
   templateUrl: './socios.component.html',
   styleUrl: './socios.component.scss'
@@ -53,7 +57,6 @@ export class SociosComponent implements OnInit{
     this.socioService.listAll().subscribe({
       next: (res) => {
         this.socios = res;
-        console.log(res);
       }
     })
   }
@@ -101,7 +104,6 @@ export class SociosComponent implements OnInit{
           this.list();
         },
         error:(error)=>{
-          console.log(error);
           alert(error.error);
         }
       })
@@ -147,30 +149,56 @@ export class SociosComponent implements OnInit{
   socio_dependente?:Socio;
 
   criarDependente(){
-    const dependente: Dependente = {
-      "nome" : this.nome_dependente,
-      "dtNascimento" : this.dtNascimento_dependente,
-      "sexo" : this.sexo_dependente,
-      "estahAtivo" : true,
-      "socio": this.socio_dependente
+    if (this.dependente_editar == undefined){
+      const dependente: Dependente = {
+        "nome" : this.nome_dependente,
+        "dtNascimento" : this.dtNascimento_dependente,
+        "sexo" : this.sexo_dependente,
+        "estahAtivo" : true,
+        "socio": this.socio_dependente
+      }
+
+      console.log(dependente);
+
+      this.dependenteService.create(dependente).subscribe({
+        next: (res)=>{
+          dependente.id = res.id;
+          alert("Dependente adicionado com sucesso.");
+          this.dependentes.push(dependente);
+        },
+        error:(error)=>{
+          console.log(error);
+          alert(error.error)
+        }
+      })
+    } else {
+      const dependente: Dependente = {
+        "id" : this.dependente_editar.id!,
+        "nome" : this.nome_dependente,
+        "dtNascimento" : this.dtNascimento_dependente,
+        "sexo" : this.sexo_dependente,
+        "estahAtivo" : this.dependente_editar.estahAtivo,
+        "socio": this.dependente_editar.socio
+      }
+
+      console.log(dependente);
+
+      this.dependenteService.update(dependente).subscribe({
+        next: (res)=>{
+          dependente.id = res.id;
+          alert("Dependente alterado com sucesso.");
+          this.dependentes.push(dependente);
+        },
+        error:(error)=>{
+          console.log(error);
+          alert(error.error)
+        }
+      })
     }
 
-    console.log(dependente);
-
-    this.dependenteService.create(dependente).subscribe({
-      next: (res)=>{
-        dependente.id = res.id;
-        alert("Dependente adicionado com sucesso.");
-        this.dependentes.push(dependente);
-      },
-      error:(error)=>{
-        console.log(error);
-        alert(error.error)
-      }
-    })
   }
 
-  addDependente(socio :Socio){
+  setAddDependente(socio :Socio){
     this.socio_dependente = socio;
     this.setEdit(socio);
     this.dependenteService.listDependentes(socio.id!).subscribe({
@@ -198,5 +226,40 @@ export class SociosComponent implements OnInit{
     })
   }
 
+  trocarDeEstadoSocio(socio: Socio) {
+    this.socioService.trocarEstado(socio).subscribe({
+      next: () => {
+        alert("Cliente alterado com sucesso.")
+        this.list();
+      },
+      error: ( error ) => {
+        alert(error.error_outline)
+      }
+    })
+  }
 
+  trocarDeEstadoDependente(dependente: Dependente) {
+    this.dependenteService.trocarEstado(dependente).subscribe({
+      next: () => {
+        alert("Dependente alterado com sucesso.")
+        this.setAddDependente(this.socio_dependente!);
+      },
+      error: ( error ) => {
+        alert(error.error_outline)
+      }
+    })
+  }
+
+  editarDependente(dependente: Dependente) {
+    this.dependente_editar = dependente;
+    this.nome_dependente = dependente.nome;
+    this.sexo_dependente = dependente.sexo;
+    this.dtNascimento_dependente = dependente.dtNascimento;
+  }
+
+  dependente_editar: Dependente | undefined;
+
+  addDependente() {
+    this.dependente_editar = undefined;
+  }
 }

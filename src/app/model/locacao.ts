@@ -1,4 +1,5 @@
 import { Cliente } from "./cliente";
+import { Item } from "./item";
 
 export interface Locacao {
   id?: number,
@@ -7,5 +8,6 @@ export interface Locacao {
   dtDevolucaoEfetiva?: string,
   valorCobrado?: number,
   multaCobrada?: number,
+  item?:Item,
   cliente?: Cliente
 }

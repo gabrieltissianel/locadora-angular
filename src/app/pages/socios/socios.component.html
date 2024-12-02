@@ -26,7 +26,7 @@
       <tr>
         <td>{{socio.id}}</td>
         <td>{{socio.nome}}</td>
-        <td>{{socio.dtNascimento}}</td>
+        <td>{{socio.dtNascimento | date:'dd/MM/yyyy'}}</td>
         <td>{{socio.sexo}}</td>
         <td>{{socio.cpf}}</td>
         <td>{{socio.endereco}}</td>
@@ -37,11 +37,15 @@
             <mat-icon>edit</mat-icon>
           </button>
 
+          <button mat-icon-button color="accent" aria-label="Remover um classe" (click)="trocarDeEstadoSocio(socio)">
+            <mat-icon fontIcon="check_circle"></mat-icon>
+          </button>
+
           <button mat-icon-button color="warning" aria-label="Remover um classe" (click)="remove(socio.id!)">
             <mat-icon>delete</mat-icon>
           </button>
 
-          <button mat-icon-button color="accent" aria-label="Adicionar dependente" data-bs-toggle="modal" data-bs-target="#dependenteModal" (click)="addDependente(socio)">
+          <button mat-icon-button color="accent" aria-label="Adicionar dependente" data-bs-toggle="modal" data-bs-target="#dependenteListModal" (click)="setAddDependente(socio)">
             <mat-icon>add</mat-icon>
           </button>
 
@@ -87,13 +91,6 @@
           <label for="inputTelefone" class="form-label">Telefone</label>
           <input type="text" class="form-control" id="inputTelefone" [(ngModel)]="tel">
         </div>
-        <div class="mb-3">
-          <label for="inputTitulo" class="form-label">Ativo</label>
-          <select name="titulo" [(ngModel)]="estahAtivo" [ngModelOptions]="{standalone: true}" class="form-select">
-            <option [ngValue]="true">Sim</option>
-            <option [ngValue]="false">Não</option>
-          </select>
-        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -104,11 +101,67 @@
 </div>
 
 
-<div class="modal fade" id="dependenteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="dependenteListModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Dependete</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Dependetes</h1>
+        <button mat-mini-fab color="accent" aria-label="Adicionar um item" data-bs-toggle="modal" data-bs-target="#dependenteModal" onclick="addDependente()">
+          <mat-icon>add</mat-icon>
+        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Sexo</th>
+                <th scope="col">Ativo</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (dependente of dependentes; track $index) {
+                <tr>
+                  <td>{{dependente.nome}}</td>
+                  <td>{{dependente.sexo}}</td>
+                  <td>{{dependente.estahAtivo ? 'Sim' : 'Não'}}</td>
+                  <td>
+                    <button mat-icon-button color="warning" aria-label="Editar um ator" data-bs-toggle="modal" data-bs-target="#dependenteModal" (click)="editarDependente(dependente)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+
+                    <button mat-icon-button color="accent" aria-label="Remover um classe" (click)="trocarDeEstadoDependente(dependente)">
+                      <mat-icon fontIcon="check_circle"></mat-icon>
+                    </button>
+
+                    <button mat-icon-button color="warning" aria-label="Remover um ator" (click)="removeDependente(dependente)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="add()" >Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="dependenteModal" tabindex="-1" aria-labelledby="dependenteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="dependenteModalLabel">Dependete</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -127,35 +180,11 @@
             <option [ngValue]="'F'">F</option>
           </select>
         </div>
-        <button mat-mini-fab color="accent" aria-label="Adicionar um item" (click)="criarDependente()">
-          <mat-icon>add</mat-icon>
-      </button>
-        <div class="mb-3">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Nome</th>
-                <th scope="col">Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (dependente of dependentes; track $index) {
-                <tr>
-                  <td>{{dependente.nome}}</td>
-                  <td>
-                    <button mat-icon-button color="warning" aria-label="Remover um ator" (click)="removeDependente(dependente)">
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                  </td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="add()" >Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="criarDependente()" >Save changes</button>
       </div>
     </div>
   </div>
