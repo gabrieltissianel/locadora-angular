@@ -1,0 +1,35 @@
+mat-toolbar{
+  display: flex;
+  justify-content: space-between;
+}
+
+.pesquisar{
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.table {
+  table-layout: fixed; /* Define largura fixa para as colunas */
+  width: 100%; /* Garante que a tabela ocupe toda a largura */
+}
+
+.table th, .table td {
+  word-wrap: break-word; /* Permite quebra de palavras */
+  overflow-wrap: break-word; /* Suporte adicional para navegadores modernos */
+  white-space: normal; /* Permite quebra de linha */
+  text-align: left; /* Alinha o texto à esquerda */
+}
+
+.table th {
+  width: 12%; /* Define uma largura fixa para os cabeçalhos */
+}
+
+.table td {
+  width: 12%; /* Define uma largura fixa para os dados */
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  width: 20%; /* Exemplo: define uma largura maior para a coluna 'Atores' */
+}

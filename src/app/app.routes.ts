@@ -6,6 +6,7 @@ import { LocacaoComponent } from './pages/locacao/locacao.component';
 import { ItensComponent } from './pages/itens/itens.component';
 import { TitulosComponent } from './pages/titulos/titulos.component';
 import { SociosComponent } from './pages/socios/socios.component';
+import { ConsultaComponent } from './pages/consulta/consulta.component';
 
 
 export const routes: Routes = [
@@ -36,5 +37,9 @@ export const routes: Routes = [
   {
     path: 'socios',
     component: SociosComponent
+  },
+  {
+    path: 'consulta',
+    component: ConsultaComponent
   }
 ];

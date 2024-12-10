@@ -1,0 +1,47 @@
+<mat-toolbar>
+  <span>Consulta Titulos</span>
+  <div class="pesquisar">
+
+    <input type="text" class="form-control" id="inputValor" [(ngModel)]="pesquisa">
+
+    <button mat-mini-fab color="accent" aria-label="Adicionar um ator" (click)="realizarPesquisa()">
+      <mat-icon>search</mat-icon>
+    </button>
+    <select name="titulo" [(ngModel)]="opcao" [ngModelOptions]="{standalone: true}" class="form-select">
+      <option [ngValue]="0">Nome</option>
+      <option [ngValue]="1">Classe</option>
+      <option [ngValue]="2">Ator</option>
+    </select>
+  </div>
+</mat-toolbar>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Nome</th>
+      <th scope="col">Atores</th>
+      <th scope="col">Diretor</th>
+      <th scope="col">Ano</th>
+      <th scope="col">Sinopse</th>
+      <th scope="col">Categoria</th>
+      <th scope="col">Classe</th>
+      <th scope="col">Valor</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (titulo of titulos; track $index) {
+      <tr>
+        <td>{{titulo.nome}}</td>
+        <td>{{gerarNomesAtores(titulo.ator)}}</td>
+        <td>{{titulo.diretor.name}}</td>
+        <td>{{titulo.ano}}</td>
+        <td>{{titulo.sinopse}}</td>
+        <td>{{titulo.categoria}}</td>
+        <td>{{titulo.classe.name}}</td>
+        <td>{{titulo.classe.value}}</td>
+      </tr>
+
+    }
+  </tbody>
+</table>
